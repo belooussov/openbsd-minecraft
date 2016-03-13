@@ -1,0 +1,63 @@
+---
+# 1. deploy our /etc/pkg.conf, if file does not exhist
+- name: Deploy our own pkg.conf config
+  template: src=pkg.conf dest=/etc/pkg.conf
+  become: yes
+  become_method: su
+  become_user: root
+  tags:
+    - minecraft
+
+# 2. install java
+- name: Install jdk
+  openbsd_pkg: name=jdk state=latest
+  become: yes
+  become_method: su
+  become_user: root
+  tags:
+    - minecraft
+
+- name: Install wget
+  openbsd_pkg: name=wget state=latest
+  become: yes
+  become_method: su
+  become_user: root
+  tags:
+    - minecraft
+
+# 3. create minecraft user/group
+- name: create minecraft group
+  become: yes
+  become_method: su
+  become_user: root
+  tags:
+    - minecraft
+
+- name: create minecraft username
+  become: yes
+  become_method: su
+  become_user: root
+  tags:
+    - minecraft
+
+- name: create /opt/minecraft subdir
+  become: yes
+  become_method: su
+  become_user: root
+  tags:
+    - minecraft
+
+# 4. download minecraft
+- name: Download minecraft
+  become: yes
+  become_method: su
+  become_user: root
+  shell: wget https://s3.amazonaws.com/Minecraft.Download/versions/1.9/minecraft_server.1.9.jar -O /opt/minecraft/minecraft_server.jar 
+  tags:
+    - minecraft
+
+
+# 5. install minecraft
+# 6. deploy /etc/rc.d/minecraft server file
+# 7. start /etc/rc.d/minecraft server file
+# 8. remove download if not needed anymore
