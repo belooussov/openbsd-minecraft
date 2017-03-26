@@ -1,0 +1,6 @@
+---
+
+minecraft_home_dir: /opt/minecraft
+minecraft_user_name: _mcserver
+minecraft_user_group: "{{ minecraft_user_name }}"
+minecraft_server_version: 1.11

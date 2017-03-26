@@ -1,0 +1,40 @@
+---
+
+- name: Deploy our own pkg.conf config
+  template:
+    src: pkg.conf
+    dest: /etc/pkg.conf
+
+- name: Install jdk
+  openbsd_pkg:
+    name: jdk-1.8.0.72p0v0
+    state: latest
+
+- name: Install wget
+  openbsd_pkg:
+    name: wget
+    state: latest
+
+- name: Create minecraft group
+  group:
+    name: "{{ minecraft_user_group }}"
+    state: present
+
+- name: Create minecraft username
+  user:
+    name: "{{ minecraft_user_name }}"
+    shell: /bin/sh
+    groups: "{{ minecraft_user_group }}"
+    home: ""{{ minecraft_home_dir }}"
+
+- name: Download minecraft to minecraft subdir
+  get_url:
+    url: "https://s3.amazonaws.com/Minecraft.Download/versions/{{ minecraft_server_version }}/minecraft_server.{{ minecraft_server_version }}.jar"
+    dest: "{{ minecraft_home_dir }}/minecraft_server.jar"
+    mode: 0440
+    timeout: 300
+  retries: 50
+  delay: 10
+
+# 6. deploy /etc/rc.d/minecraft rc.d file from template
+# 7. enable minecraft service

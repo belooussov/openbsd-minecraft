@@ -1,3 +1,3 @@
 #!/bin/bash
 
-ansible-playbook -i ./inventory ./minecraft.yml
+ansible-playbook -i ./inventory.ini ./minecraft.yml
